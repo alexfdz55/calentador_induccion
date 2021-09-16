@@ -1,13 +1,9 @@
 import 'package:calentador_induccion/app/modules/config_room/controllers/config_room_controller.dart';
 import 'package:calentador_induccion/app/modules/config_room/views/config_room_view.dart';
-import 'package:calentador_induccion/app/modules/rooms/views/rooms_view.dart';
-import 'package:calentador_induccion/app/routes/app_pages.dart';
+
 import 'package:calentador_induccion/app/shared/responisve/responsive.dart';
 import 'package:calentador_induccion/app/shared/widgets/custom_button.dart';
-import 'package:calentador_induccion/app/shared/widgets/custom_material_button.dart';
 import 'package:calentador_induccion/app/shared/widgets/icon_swicht_theme.dart';
-import 'package:calentador_induccion/app/shared/widgets/radial_progress.dart';
-import 'package:calentador_induccion/app/shared/widgets/text_title.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -16,32 +12,158 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  final _ = Get.put(HomeController());
   late Responsive responsive;
 
   @override
   Widget build(BuildContext context) {
     responsive = Responsive(context);
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _fondoApp(),
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _titulos(),
-                SizedBox(height: 50),
-                // TextTitle(title: 'Configurações de Chuveiros', fontSize: 25),
-                // SizedBox(height: 50),
+    return GetBuilder<HomeController>(
+      init: HomeController(),
+      builder: (_) => Scaffold(
+        appBar: appBar(),
+        body: _buttons(),
+        // body: Stack(
+        //   children: <Widget>[
+        //     _fondoApp(),
+        //     SingleChildScrollView(
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: <Widget>[
+        //           _titulos(),
+        //           SizedBox(height: 50),
+        //           // TextTitle(title: 'Configurações de Chuveiros', fontSize: 25),
+        //           // SizedBox(height: 50),
 
-                _button()
+        //           _button()
 
-                //_botonesRedondeados(context),
-              ],
-            ),
-          )
-        ],
+        //           //_botonesRedondeados(context),
+        //         ],
+        //       ),
+        //     )
+        //   ],
+        // ),
       ),
+    );
+  }
+
+  appBar() {
+    return AppBar(
+      title: _titulos(),
+      toolbarHeight: 200,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50)),
+            gradient: LinearGradient(colors: [
+              //Colors.green.shade600,
+              Colors.green.shade800,
+              Colors.green,
+            ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
+      ),
+    );
+  }
+
+  _titulos() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Hostal Caçari',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            IconSwitchTheme(),
+          ],
+        ),
+        SizedBox(height: 10.0),
+        Text('Controle de Chuveiros por \nindução electromagnética',
+            style: TextStyle(color: Colors.white, fontSize: 25.0)),
+        //SizedBox(height: 10.0),
+        Row(
+          children: [
+            Spacer(),
+            _statusWidget(),
+            SizedBox(
+              width: 10,
+            )
+          ],
+        ),
+        //SizedBox(height: 10.0),
+      ],
+    );
+  }
+
+  _statusWidget() {
+    final fontSize = 14.0;
+    return Row(
+      children: [
+        _.connected
+            ? Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    Icon(Icons.wifi_outlined),
+                    SizedBox(width: 10),
+                    Text(
+                      " Conectado",
+                      style: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ))
+            : Container(
+                child: Row(
+                  children: [
+                    Icon(Icons.wifi_off, color: Colors.red),
+                    SizedBox(width: 10),
+                    Text(
+                      " Desconectado",
+                      style: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    ),
+                  ],
+                ),
+              ),
+        SizedBox(width: 20),
+        Container(
+            height: _.connected ? 0 : 40,
+            width: _.connected ? 0 : 180,
+            //color: Colors.red,
+            child: _.connected
+                ? Container()
+                : Container(
+                    //color: Colors.red,
+                    height: 30,
+                    width: 60,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Tentando se conectar',
+                            style: TextStyle(
+                                fontSize: fontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  )),
+      ],
     );
   }
 
@@ -88,7 +210,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _titulos() {
+  Widget _titulos2() {
     return SafeArea(
       child: Container(
         width: responsive.wp(90),
@@ -119,7 +241,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _button() {
+  Widget _buttons() {
     // return BotonGordo(
     //     icon: FontAwesomeIcons.bed,
     //     icon2: FontAwesomeIcons.bath,
@@ -131,7 +253,7 @@ class HomeView extends GetView<HomeController> {
     //     });
     return Container(
       // color: Colors.blueGrey,
-      height: responsive.height - 230,
+      //height: responsive.height - 230,
       child: ListView.builder(
         itemBuilder: (__, index) {
           return BotonGordo(
@@ -153,6 +275,9 @@ class HomeView extends GetView<HomeController> {
     );
   }
 }
+
+ 
+
 
 
 

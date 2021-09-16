@@ -25,7 +25,7 @@ class TiempoWidget extends StatelessWidget {
             ],
           ),
         ),
-        initialValue: _.value,
+        initialValue: _.tiempo + 0.0,
         onChange: (double value) {
           print(value);
         },

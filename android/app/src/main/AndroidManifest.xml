@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.calentador_induccion.calentador_induccion">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Aquecedor por Indução"
         android:icon="@mipmap/launcher_icon">

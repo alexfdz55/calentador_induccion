@@ -8,10 +8,12 @@ abstract class Routes {
 
   static const ROOMS = _Paths.ROOMS;
   static const CONFIG_ROOM = _Paths.CONFIG_ROOM;
+  static const WEB_SOCKET = _Paths.WEB_SOCKET;
 }
 
 abstract class _Paths {
   static const HOME = '/home';
   static const ROOMS = '/rooms';
   static const CONFIG_ROOM = '/config-room';
+  static const WEB_SOCKET = '/web-socket';
 }

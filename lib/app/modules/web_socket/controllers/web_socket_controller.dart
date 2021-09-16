@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
-class HomeController extends GetxController {
+class WebSocketController extends GetxController {
   late String temperatura;
   late String potencia;
   late String tiempo;
@@ -43,7 +43,7 @@ class HomeController extends GetxController {
       //channel IP : Port
       channel.stream.listen(
         (message) {
-          ////print(message);
+          print(message);
           if (message == "connected") {
             connected = true; //message is "connected" from NodeMCU
           }
@@ -72,48 +72,47 @@ class HomeController extends GetxController {
         onDone: () {
           //if WebSocket is disconnected
 
-          //print("Web socket is closed");
+          print("Web socket is closed");
           msg = 'Websocket se ha cerrado';
           connected = false;
           update();
-          initConection();
         },
         onError: (error) {
           msg = 'No se ha podido conectar con el NodeMCU';
           update();
-          //print(error.toString());
+          print(error.toString());
         },
       );
     } catch (_) {
       msg = 'Error al conectar con el NodeMCU';
-      //print("error on connecting to websocket.");
+      print("error on connecting to websocket.");
     }
   }
 
   Future<void> sendcmd(String cmd) async {
     if (connected == true) {
       if (ledstatus == false && cmd != "poweron" && cmd != "poweroff") {
-        //print("Send the valid command");
+        print("Send the valid command");
       } else {
         channel.sink.add(cmd); //sending Command to NodeMCU
       }
     } else {
       channelconnect();
-      //print("Websocket is not connected.");
+      print("Websocket is not connected.");
     }
   }
 
   Future<void> setTemp(String cmd) async {
     if (connected == true) {
       // if (ledstatus == false && cmd != "poweron" && cmd != "poweroff") {
-      //   //print("Send the valid command");
+      //   print("Send the valid command");
       // } else {
       //   //sending Command to NodeMCU
       // }
-      channel.sink.add(cmd);
+      channel.sink.add("1000");
     } else {
       channelconnect();
-      //print("Websocket is not connected.");
+      print("Websocket is not connected.");
     }
   }
 }

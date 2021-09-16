@@ -16,7 +16,7 @@ class PotenciaWidget extends StatelessWidget {
       child: CustomRadioButton(
         enableShape: true,
         elevation: 0,
-        defaultSelected: _.potencias[0],
+        defaultSelected: _.potencia,
         enableButtonWrap: true,
         width: 120,
         autoWidth: false,
