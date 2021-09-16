@@ -126,7 +126,8 @@ class WebSocketView extends StatelessWidget {
               if (_.ledstatus) {
                 //if ledstatus is true, then turn off the led
                 //if led is on, turn off
-                _.sendcmd("poweroff");
+                // _.sendcmd("poweroff");
+                _.setTemp('sd');
                 _.ledstatus = false;
               } else {
                 //if ledstatus is false, then turn on the led

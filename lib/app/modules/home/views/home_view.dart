@@ -107,7 +107,7 @@ class HomeView extends GetView<HomeController> {
     final fontSize = 14.0;
     return Row(
       children: [
-        _.connected
+        _.connected.value
             ? Container(
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
@@ -140,10 +140,10 @@ class HomeView extends GetView<HomeController> {
               ),
         SizedBox(width: 20),
         Container(
-            height: _.connected ? 0 : 40,
-            width: _.connected ? 0 : 180,
+            height: _.connected.value ? 0 : 40,
+            width: _.connected.value ? 0 : 180,
             //color: Colors.red,
-            child: _.connected
+            child: _.connected.value
                 ? Container()
                 : Container(
                     //color: Colors.red,

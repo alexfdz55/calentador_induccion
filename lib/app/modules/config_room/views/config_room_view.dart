@@ -2,6 +2,7 @@ import 'package:calentador_induccion/app/modules/config_room/components/custom_c
 import 'package:calentador_induccion/app/modules/config_room/components/potencia_widget.dart';
 import 'package:calentador_induccion/app/modules/config_room/components/temperatura_widget.dart';
 import 'package:calentador_induccion/app/modules/config_room/components/tiempo_widget.dart';
+import 'package:calentador_induccion/app/modules/home/controllers/home_controller.dart';
 import 'package:calentador_induccion/app/shared/responisve/responsive.dart';
 import 'package:calentador_induccion/app/shared/widgets/custom_floating_button.dart';
 import 'package:calentador_induccion/app/shared/widgets/icon_swicht_theme.dart';
@@ -13,6 +14,7 @@ import '../controllers/config_room_controller.dart';
 
 class ConfigRoomView extends GetView<ConfigRoomController> {
   final _ = Get.put(ConfigRoomController());
+  final homeController = Get.put(HomeController());
   final kColor = Get.theme.primaryColor;
   late Responsive responsive;
 
@@ -31,7 +33,12 @@ class ConfigRoomView extends GetView<ConfigRoomController> {
           ],
         ),
         actions: [
-          IconSwitchTheme(),
+          Column(
+            children: [
+              IconSwitchTheme(),
+              _statusWidget(),
+            ],
+          ),
         ],
         centerTitle: true,
       ),
@@ -70,5 +77,39 @@ class ConfigRoomView extends GetView<ConfigRoomController> {
       ),
       floatingActionButton: CustomFloatingButton(),
     );
+  }
+
+  _statusWidget() {
+    return Obx(() => Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            homeController.connected.value
+                ? Container(
+                    //color: Colors.red,
+                    // padding: EdgeInsets.only(top: 20),
+                    child: Icon(Icons.wifi_outlined),
+                  )
+                : Container(
+                    child: Icon(Icons.wifi_off, color: Colors.red),
+                  ),
+
+            // homeController.connected ? Container() : SizedBox(width: 5),
+            Container(
+                height: homeController.connected.value ? 0 : 20,
+                width: homeController.connected.value ? 0 : 30,
+                //color: Colors.red,
+                child: homeController.connected.value
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.only(right: 10),
+                        //color: Colors.red,
+                        height: 20,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )),
+          ],
+        ));
   }
 }

@@ -48,9 +48,9 @@ class ConfigRoomController extends GetxController {
       print('asdasdas');
       initFirst();
     }
-    print('potencia: ${prefs.potencias[0]}');
-    print('temp: $temperatura');
-    print('tiempo: $tiempo');
+    // print('potencia: ${prefs.potencias[0]}');
+    // print('temp: $temperatura');
+    // print('tiempo: $tiempo');
 
     super.onInit();
   }
@@ -86,7 +86,12 @@ class ConfigRoomController extends GetxController {
     prefs.potencias = pot;
     prefs.temperaturas = temp;
     prefs.tiempos = tiem;
-    homeController.setTemp((tiempo * 10).toString());
+    //homeController.setTemp((tiempo * 10).toString());
+    homeController.setConfigRoom(
+        roomNumber: (roomNumber.value + 1).toString(),
+        potencia: potencia,
+        temperatura: temperatura.toStringAsPrecision(3),
+        tiempo: tiempo.toString());
   }
 
   // setTemperatura() {

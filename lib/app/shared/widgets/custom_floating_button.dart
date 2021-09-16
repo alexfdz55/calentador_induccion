@@ -28,8 +28,8 @@ class CustomFloatingButton extends StatelessWidget {
         // fabCloseColor: Colors.white
         // These properties take precedence over fabColor
         fabColor: Get.theme.primaryColor,
-        fabOpenIcon: Icon(Icons.menu, color: Colors.white),
-        fabCloseIcon: Icon(Icons.close, color: Colors.white),
+        fabOpenIcon: Icon(FontAwesomeIcons.bath, color: Colors.white),
+        fabCloseIcon: Icon(Icons.close_rounded, size: 30, color: Colors.white),
         fabMargin: const EdgeInsets.all(16.0),
         animationDuration: const Duration(milliseconds: 800),
         animationCurve: Curves.easeInOutCirc,

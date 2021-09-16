@@ -9,7 +9,8 @@ class HomeController extends GetxController {
   late String tiempo;
 
   late IOWebSocketChannel channel;
-  late bool connected; //boolean value to track if WebSocket is connected
+  RxBool connected =
+      false.obs; //boolean value to track if WebSocket is connected
   late bool ledstatus; //boolean value to track LED status, if its ON or OFF
 
   // String url = '192.168.0.1:81';
@@ -25,7 +26,7 @@ class HomeController extends GetxController {
   initConection() {
     msg = 'Conectando con: $url';
     ledstatus = false;
-    connected = false; //initially connection status is "NO" so its FALSE
+    connected.value = false; //initially connection status is "NO" so its FALSE
 
     temperatura = "0"; //initial value of temperaturaerature
     potencia = "0"; //initial value of potencia
@@ -45,7 +46,7 @@ class HomeController extends GetxController {
         (message) {
           ////print(message);
           if (message == "connected") {
-            connected = true; //message is "connected" from NodeMCU
+            connected.value = true; //message is "connected" from NodeMCU
           }
           //
           else if (message == "poweron:success") {
@@ -54,19 +55,22 @@ class HomeController extends GetxController {
           //
           else if (message == "poweroff:success") {
             ledstatus = false;
+          } else {
+            print(message);
           }
 
           //
-          else if (message.substring(0, 13) == "{'temperatura") {
-            //check if the resonse has {'temperatura on it
-            message = message.replaceAll(RegExp("'"), '"');
-            Map<String, dynamic> jsondata =
-                json.decode(message); //decode json to array
-            temperatura = jsondata["temperatura"]; //temperaturaerature value
-            potencia = jsondata["potencia"]; //potencia value
-            tiempo = jsondata["tiempo"]; //tiempo value
-            update();
-          }
+          // else if (message.substring(0, 13) == "{'temperatura") {
+          //   //check if the resonse has {'temperatura on it
+          //   message = message.replaceAll(RegExp("'"), '"');
+          //   Map<String, dynamic> jsondata =
+          //       json.decode(message); //decode json to array
+          //   temperatura = jsondata["temperatura"]; //temperaturaerature value
+          //   potencia = jsondata["potencia"]; //potencia value
+          //   tiempo = jsondata["tiempo"]; //tiempo value
+          //   update();
+          // }
+
           update();
         },
         onDone: () {
@@ -74,7 +78,7 @@ class HomeController extends GetxController {
 
           //print("Web socket is closed");
           msg = 'Websocket se ha cerrado';
-          connected = false;
+          connected.value = false;
           update();
           initConection();
         },
@@ -111,6 +115,28 @@ class HomeController extends GetxController {
       //   //sending Command to NodeMCU
       // }
       channel.sink.add(cmd);
+    } else {
+      channelconnect();
+      //print("Websocket is not connected.");
+    }
+  }
+
+  Future<void> setConfigRoom(
+      {required String potencia,
+      required String temperatura,
+      required String tiempo,
+      required String roomNumber}) async {
+    if (connected == true) {
+      final n = potencia.length;
+      final configMap = {
+        "roomNumber": roomNumber,
+        "potencia": potencia.substring(n - 1, n),
+        "temperatura": temperatura,
+        "tiempo": tiempo,
+      };
+      print(configMap);
+
+      channel.sink.add(configMap.toString());
     } else {
       channelconnect();
       //print("Websocket is not connected.");

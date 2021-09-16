@@ -57,15 +57,18 @@ class WebSocketController extends GetxController {
           }
 
           //
-          else if (message.substring(0, 13) == "{'temperatura") {
-            //check if the resonse has {'temperatura on it
-            message = message.replaceAll(RegExp("'"), '"');
-            Map<String, dynamic> jsondata =
-                json.decode(message); //decode json to array
-            temperatura = jsondata["temperatura"]; //temperaturaerature value
-            potencia = jsondata["potencia"]; //potencia value
-            tiempo = jsondata["tiempo"]; //tiempo value
-            update();
+          // else if (message.substring(0, 13) == "{'temperatura") {
+          //   //check if the resonse has {'temperatura on it
+          //   message = message.replaceAll(RegExp("'"), '"');
+          //   Map<String, dynamic> jsondata =
+          //       json.decode(message); //decode json to array
+          //   temperatura = jsondata["temperatura"]; //temperaturaerature value
+          //   potencia = jsondata["potencia"]; //potencia value
+          //   tiempo = jsondata["tiempo"]; //tiempo value
+          //   update();
+          // }
+          else {
+            print(message);
           }
           update();
         },
@@ -108,8 +111,8 @@ class WebSocketController extends GetxController {
       //   print("Send the valid command");
       // } else {
       //   //sending Command to NodeMCU
-      // }
-      channel.sink.add("1000");
+      // }              poweroff
+      channel.sink.add("5dfgdfg");
     } else {
       channelconnect();
       print("Websocket is not connected.");
