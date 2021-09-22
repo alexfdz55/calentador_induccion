@@ -30,5 +30,25 @@ class Responsive {
     return (this.height - h) * percent / 100;
   }
 
+  optionDevice({
+    required mobileOption,
+    required tabletOption,
+    required desktopOption,
+  }) {
+    final w = this.width;
+    // If our width is more than 1100 then we consider it a desktop
+    if (w >= 1100) {
+      return desktopOption;
+    }
+    // If width it less then 1100 and more then 850 we consider it as tablet
+    else if (w >= 500 && w < 1100) {
+      return tabletOption;
+    }
+    // Or less then that we called it mobile
+    else {
+      return mobileOption;
+    }
+  }
+
   // double dp(double percent) => this.diagonal * percent / 100;
 }

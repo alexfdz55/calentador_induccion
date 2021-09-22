@@ -43,36 +43,33 @@ class ConfigRoomView extends GetView<ConfigRoomController> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Obx(
-              () => CustomContainer(
+        child: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomContainer(
                 color: Colors.red,
                 text: 'Potencia',
                 value: _.getPotencia(),
-                expandedWidget: Container(child: PotenciaWidget()),
+                expandedWidget: PotenciaWidget(),
               ),
-            ),
-            Obx(
-              () => CustomContainer(
+              CustomContainer(
                 // value: _.temperatura.value.toStringAsPrecision(3) + ' °C',
                 value: _.getTemperatura(),
                 color: Colors.orange,
                 text: 'Temperatura',
                 expandedWidget: TemperaturaWidget(),
               ),
-            ),
-            Obx(
-              () => CustomContainer(
-                  //value: _.tiempo.value.toString() + ' min',
-                  value: _.getTiempo(),
-                  color: Colors.green,
-                  text: 'Tempo',
-                  expandedWidget: TiempoWidget()),
-            ),
-            SizedBox(height: 30),
-          ],
+              CustomContainer(
+                //value: _.tiempo.value.toString() + ' min',
+                value: _.getTiempo(),
+                color: Colors.green,
+                text: 'Tempo',
+                expandedWidget: TiempoWidget(),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
       floatingActionButton: CustomFloatingButton(),

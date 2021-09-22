@@ -8,6 +8,8 @@ class HomeController extends GetxController {
   late String potencia;
   late String tiempo;
 
+  DateTime date = DateTime.now();
+
   late IOWebSocketChannel channel;
   RxBool connected =
       false.obs; //boolean value to track if WebSocket is connected
@@ -19,7 +21,13 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
+    ever(connected, (value) async {
+      date = DateTime.now();
+      //sendTimeNow();
+      //print(date);
+    });
     initConection();
+
     super.onInit();
   }
 
@@ -107,14 +115,20 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> setTemp(String cmd) async {
+  Future<void> sendTimeNow() async {
     if (connected == true) {
-      // if (ledstatus == false && cmd != "poweron" && cmd != "poweroff") {
-      //   //print("Send the valid command");
-      // } else {
-      //   //sending Command to NodeMCU
-      // }
-      channel.sink.add(cmd);
+      final n = potencia.length;
+      final timeMap = {
+        "year": date.year,
+        "month": date.month,
+        "day": date.day,
+        "hour": date.hour,
+        "minutes": date.minute,
+        "seconds": date.second
+      };
+      print(timeMap);
+
+      channel.sink.add(timeMap.toString());
     } else {
       channelconnect();
       //print("Websocket is not connected.");
@@ -130,7 +144,7 @@ class HomeController extends GetxController {
       final n = potencia.length;
       final configMap = {
         "roomNumber": roomNumber,
-        "potencia": potencia.substring(n - 1, n),
+        "potencia": potencia.substring(potencia.indexOf(' '), n),
         "temperatura": temperatura,
         "tiempo": tiempo,
       };

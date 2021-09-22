@@ -40,6 +40,8 @@ class ConfigRoomController extends GetxController {
             ),
           );
         }
+        print('************');
+        update();
       }
     });
 
@@ -48,9 +50,6 @@ class ConfigRoomController extends GetxController {
       print('asdasdas');
       initFirst();
     }
-    // print('potencia: ${prefs.potencias[0]}');
-    // print('temp: $temperatura');
-    // print('tiempo: $tiempo');
 
     super.onInit();
   }

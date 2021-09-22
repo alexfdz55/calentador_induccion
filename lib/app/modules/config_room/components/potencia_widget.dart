@@ -10,6 +10,8 @@ class PotenciaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
+
+    print(_.potencia);
     return //RadioButton();
         Padding(
       padding: EdgeInsets.only(bottom: 20),
@@ -18,12 +20,17 @@ class PotenciaWidget extends StatelessWidget {
         elevation: 0,
         defaultSelected: _.potencia,
         enableButtonWrap: true,
-        width: 120,
+        width: 130,
         autoWidth: false,
         selectedBorderColor: Colors.red,
         unSelectedBorderColor: Colors.grey,
         unSelectedColor: Theme.of(context).canvasColor,
         buttonTextStyle: ButtonTextStyle(
+            textStyle: TextStyle(
+                fontSize: responsive.optionDevice(
+                    mobileOption: responsive.wp(3),
+                    tabletOption: 15.0,
+                    desktopOption: 15.0)),
             selectedColor: Colors.white,
             unSelectedColor: Get.textTheme.bodyText1!.color!),
         buttonLables: _.potencias,
